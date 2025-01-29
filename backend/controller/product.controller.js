@@ -1,3 +1,6 @@
+import Product from '../model/product.model.js'
+import mongoose from 'mongoose';
+
 export const  createProduct = async (req,res)=>{
     const product = req.body;
 
@@ -49,6 +52,9 @@ export const updateProduct = async(req,res)=>{
     
     try{
         const updatedProduct = await Product.findByIdAndUpdate(id , product , {new:true});
+        if(!updatedProduct) {
+            return res.status(404).json({success:false, message:'Product not found'});
+        }
         res.status(200).json({success:true,data:updatedProduct});
     }catch(err){
         console.error("Error in Updating product",err);
