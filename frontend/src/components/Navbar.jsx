@@ -9,7 +9,7 @@ const Navbar = () => {
     const {colorMode , toggleColorMode} = useColorMode();
 
   return (
-    <Container maxW ={"100vw"} px={4} bg={useColorModeValue("blue.100","blue.900")}>
+    <Container maxW ={"100vw"} px={4} bg={useColorModeValue("gray.100","blue.900")}>
       <Flex
         h={16}
         alignItems={"center"}
