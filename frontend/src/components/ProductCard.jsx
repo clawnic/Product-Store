@@ -22,8 +22,11 @@ import {
 } from "@chakra-ui/react";
 import { useProductStore } from "../store/product";
 import { useState } from "react";
+import { useAuthStore } from "../store/auth.store";
 
 const ProductCard = ({ product }) => {
+	const { isAuthenticated, user } = useAuthStore();
+    const isStoreOwner = isAuthenticated && user?.role === 'store_owner';
 	const [updatedProduct, setUpdatedProduct] = useState(product);
 
 	const textColor = useColorModeValue("gray.600", "gray.200");
@@ -93,17 +96,23 @@ const ProductCard = ({ product }) => {
 				</Heading>
 
 				<Text fontWeight='bold' fontSize='xl' color={textColor} mb={4}>
-					${product.price}
+				₹{product.price}
 				</Text>
 
-				<HStack spacing={2}>
-					<IconButton icon={<EditIcon />} onClick={onOpen} colorScheme='blue' />
-					<IconButton
-						icon={<DeleteIcon />}
-						onClick={() => handleDeleteProduct(product._id)}
-						colorScheme='red'
-					/>
-				</HStack>
+				{isStoreOwner && (
+					<HStack spacing={2}>
+						<IconButton 
+							icon={<EditIcon />} 
+							onClick={onOpen} 
+							colorScheme='blue'
+						/>
+						<IconButton
+							icon={<DeleteIcon />}
+							onClick={() => handleDeleteProduct(product._id)}
+							colorScheme='red'
+						/>
+					</HStack>
+				)}
 			</Box>
 
 			<Modal isOpen={isOpen} onClose={onClose}>

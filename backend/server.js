@@ -5,6 +5,7 @@ import path from 'path';
 dotenv.config();
 import {connectDB} from './config/db.js';
 import productRoutes from './routes/product.route.js';
+import authRoutes from  './routes/auth.route.js'
 
 
 const app = express();
@@ -14,6 +15,8 @@ const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve();
 
 app.use("/api/products" , productRoutes);
+
+app.use("/api/auth" , authRoutes)
 
 if(process.env.NODE_ENV === "production"){
     app.use(express.static(path.join(__dirname, "/frontend/dist")));

@@ -1,17 +1,16 @@
 import express from 'express';
 const router = express.Router();
-import mongoose from 'mongoose';
-import Product from '../model/product.model.js';
 import {createProduct  , deleteProduct , getAllProducts , updateProduct} from '../controller/product.controller.js';
+import { protect, authorizeStoreOwner } from '../middleware/auth.middleware.js';
 
-
-router.post('/',createProduct);
-
-router.delete('/:id',deleteProduct)
-
+//PUBLIC ROUTE
 router.get('/',getAllProducts);
 
+//PROTECTED ROUTES  - only store owner can access
+router.post('/',protect ,authorizeStoreOwner, createProduct);
 
-router.put('/:id',updateProduct);
+router.delete('/:id',protect ,authorizeStoreOwner,deleteProduct)
+
+router.put('/:id',protect ,authorizeStoreOwner,updateProduct);
 
 export default router;
